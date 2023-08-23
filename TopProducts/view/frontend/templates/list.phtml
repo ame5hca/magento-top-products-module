@@ -1,0 +1,73 @@
+<?php
+
+use AmeshExtensions\TopProducts\ViewModel\Listing;
+use Magento\Catalog\Block\Product\ListProduct;
+use Magento\Catalog\Block\Product\ReviewRendererInterface;
+use Magento\Framework\Escaper;
+
+/** @var Escaper $escaper */
+/** @var Listing $viewModel */
+/** @var  ListProduct $block */
+$viewModel = $block->getViewModel();
+$topProducts = $viewModel->getTopProducts();
+$productsCount = $topProducts->getSize();
+if ($viewModel->showListing() && $topProducts != null && $productsCount) {
+    $class = 'top-products';
+    $image = 'category_page_grid';
+    $templateType = ReviewRendererInterface::SHORT_VIEW; ?>
+    <div class="block <?= $escaper->escapeHtmlAttr($class) ?>">
+        <div class="block-title title">
+            <h3 class="section-heading text-center margin-bottom-none bold">
+                <?= $escaper->escapeHtml(__('Top %1 Positions - %2 Delivery Online', $productsCount, $viewModel->getCurrentCategoryName())) ?>
+            </h3>
+        </div>
+        <div class="block-content content" aria-labelledby="block-<?= $escaper->escapeHtmlAttr($class) ?>-heading">
+            <table class="top-products-items">
+                <tbody>
+                    <tr>
+                        <th><?= __('Name')?></th>
+                        <th><?= __('Price from')?></th>
+                    </tr>
+                    <?php foreach ($topProducts as $_item) : ?>
+                        <tr>
+                            <td>
+                                <a class="product-item-link"
+                                    title="<?= $escaper->escapeHtmlAttr($_item->getName()) ?>"
+                                    href="<?= $escaper->escapeUrl($block->getProductUrl($_item)) ?>">
+                                    <?= $escaper->escapeHtml($_item->getName()) ?>
+                                </a>
+                            </td>
+                            <td>
+                                <?= /* @noEscape */ $block->getProductPrice($_item) ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>  
+        </div>
+    </div>
+    <?php
+} ?>
+<style>
+.block.top-products table.top-products-items{
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+}
+.block.top-products .block-title.title h3.section-heading {
+    text-transform: uppercase;
+    font-size: 2.6rem;
+    font-weight: 600;
+}
+.block.top-products table.top-products-items th {
+    background-color: #eee;
+}
+.block.top-products table, .block.top-products table td, .block.top-products table th {
+    border: 1px solid #ddd;
+    text-align: center;
+}
+.block.top-products .block-content {
+    margin-top: 35px;
+}
+</style>

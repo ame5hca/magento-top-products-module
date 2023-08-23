@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <top_products>
+            <category_listing>
+                <status>1</status>
+                <limit>5</limit>
+            </category_listing>
+        </top_products>
+    </default>
+</config>
